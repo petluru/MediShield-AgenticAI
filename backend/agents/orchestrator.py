@@ -20,18 +20,7 @@ Model selection: single-shot structured output, escalated from Sonnet to
 Opus when the case is ALREADY ESCALATE-bound (PROJECT_PLAN.md SS4) — a
 deterministic trigger computed before the LLM call, not another LLM router
 call.
-
-Bug fix (2026-08-05, see IMPLEMENTATION_CHALLENGES.md and
-[[medishield-known-bugs]]): a real eval run found that a confidently-
-misclassified UNKNOWN document (e.g. a bank statement, a utility bill)
-never triggered human review — the Classifier correctly and *confidently*
-labels it UNKNOWN, so the only ESCALATE trigger that existed before this
-fix (low agent confidence) never fired, and nothing about a bank statement
-looks fraudulent to Fraud Detection either. `doc_type == UNKNOWN` is now
-its own explicit ESCALATE condition, independent of confidence — a
-document the Classifier can't identify at all is exactly the kind of case
-that needs a human, regardless of how sure the Classifier is that it
-doesn't know what it's looking at."""
+."""
 
 from langchain_core.messages import HumanMessage
 from pydantic import BaseModel, Field
