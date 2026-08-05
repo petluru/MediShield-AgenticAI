@@ -13,7 +13,6 @@ anything ambiguous or high-stakes.
 | Doc | What it's for |
 |---|---|
 | `README.md` (this file) | What this is, how to run it, top-level architecture |
-| [PROJECT_PLAN.md](PROJECT_PLAN.md) | The build plan and a dated log of every major milestone |
 | [EVAL_REPORT.md](EVAL_REPORT.md) | The full 155-document evaluation run's scores |
 | [transcripts/](transcripts/) | Real, captured examples: a clean case, a human-review pause/resume, adversarial security tests |
 
