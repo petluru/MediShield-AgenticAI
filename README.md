@@ -141,7 +141,7 @@ frontend/
   src/app/         the 4 pages: dashboard, case detail, review queue, upload
   src/lib/         the typed API client + TypeScript mirrors of the backend's Pydantic models
   src/components/  StatusBadge/DecisionBadge, the HITL review-actions widget
-dataset/           155 synthetic documents + 2 policy PDFs + ground-truth metadata.json
+dataset/           155 synthetic documents + 2 policy PDFs + ground-truth metadata.json (not in this repo — see "Get the dataset" below)
 transcripts/       real captured examples (see the docs index above)
 ```
 
@@ -155,7 +155,27 @@ See `WALKTHROUGH.md` for what problem each individual file solves.
 - Node.js 18+ (for the frontend)
 - An Anthropic API key
 
-### 1. Backend setup
+### 1. Get the dataset
+
+`dataset/` (155 synthetic documents, the 2 policy PDFs, and
+`metadata.json`) is **not committed to this repo** — it's ~125MB of
+generated images, excluded deliberately to keep the repo itself small.
+Regenerate it locally with the four generator scripts at the repo root
+(pure Python, no Anthropic calls, a few seconds to run), **in this exact
+order**:
+
+```bash
+uv run python generate_docs.py           # dataset/{claim_forms,...}/ + metadata.json
+uv run python generate_gold_policy.py     # dataset/policies/medishield_gold_plan.pdf
+uv run python generate_silver_policy.py   # dataset/policies/medishield_silver_plan.pdf
+uv run python generate_unknown.py         # dataset/unknown/ — must run after generate_docs.py
+```
+
+`scripts_overview.txt` documents exactly what each script produces if you
+want the detail. Everything below (tests, policy ingestion, the eval
+suite, uploading a document through the UI) assumes `dataset/` exists.
+
+### 2. Backend setup
 
 ```bash
 uv sync
@@ -182,7 +202,7 @@ Start the API:
 uv run uvicorn backend.api.app:app --host 127.0.0.1 --port 8000
 ```
 
-### 2. Frontend setup
+### 3. Frontend setup
 
 ```bash
 cd frontend
@@ -194,7 +214,7 @@ Open http://localhost:3000 — it talks to the API at `localhost:8000` with
 the dev bearer token (`dev-local-token`, matching `.env.example`'s
 default) unless overridden in `frontend/.env.local`.
 
-### 3. Try it
+### 4. Try it
 
 - Upload a document from `dataset/claim_forms/`, `dataset/id_documents/`,
   etc. through the Upload page, or `POST /cases` directly.
