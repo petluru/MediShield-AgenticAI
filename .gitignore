@@ -1,0 +1,66 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# uv sandbox-only shim (real fpdf2 is a declared dependency; see README)
+_shim/
+
+# Object storage / uploads created at runtime
+storage/uploads/
+storage/cases.db
+storage/llm_cache.db
+storage/checkpoints.db
+storage/token_usage.jsonl
+*.sqlite3
+
+# Vector store persistence
+backend/rag/chroma_db/
+chroma_db/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+npm-debug.log*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Eval outputs
+evals/reports/*.png
+evals/reports/*.json
+!evals/reports/.gitkeep
+
+# Type-check / lint / test caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Token/expenditure tracking — real $ spend figures, kept local only
+TOKEN_USAGE_LOG.md
+TOKEN_BUDGET.md
+TOKEN_OPTIMIZATION_PLAN.md
+
+# Dataset — regenerate locally via generate_*.py, not committed (size)
+dataset/
+
+# Claude Code dev tooling — not needed to run the project locally
+.claude/
+
+# Personal/course reference material, not original project code
+reference/
