@@ -13,10 +13,7 @@ anything ambiguous or high-stakes.
 | Doc | What it's for |
 |---|---|
 | `README.md` (this file) | What this is, how to run it, top-level architecture |
-| [WALKTHROUGH.md](WALKTHROUGH.md) | File-by-file: what problem each piece of code solves, in the order the pipeline actually runs |
-| [PRESENTATION_GUIDE.md](PRESENTATION_GUIDE.md) | A script for presenting this live, in person, from this laptop |
 | [PROJECT_PLAN.md](PROJECT_PLAN.md) | The build plan and a dated log of every major milestone |
-| [IMPLEMENTATION_CHALLENGES.md](IMPLEMENTATION_CHALLENGES.md) | Every real bug hit during the build — what broke, why, how it was fixed |
 | [EVAL_REPORT.md](EVAL_REPORT.md) | The full 155-document evaluation run's scores |
 | [transcripts/](transcripts/) | Real, captured examples: a clean case, a human-review pause/resume, adversarial security tests |
 
@@ -62,8 +59,8 @@ judgment is actually needed (does this look tampered? does this bundle of
 procedures make clinical sense together?) and writing the human-readable
 narrative explaining *why*. A business-critical decision that could drift
 from one LLM call to the next, with no way to explain why, is the wrong
-place to spend a model call. See `WALKTHROUGH.md` for where this shows up
-in the code, file by file.
+place to spend a model call — see `backend/agents/orchestrator.py` for
+where this rule actually lives in code.
 
 ## Architecture
 
@@ -108,8 +105,9 @@ Every agent, plus the Orchestrator and MCP tool calls, talks to
 **Anthropic's Claude models** — Sonnet 5 for routine judgment calls,
 escalating to Opus 5 only when a case's own signals (fraud score in an
 ambiguous band, or already ESCALATE-bound) say it's worth the stronger
-model. See `WALKTHROUGH.md`'s Component 8 section for exactly how that
-escalation trigger is computed.
+model — see `backend/agents/orchestrator.py` and
+`backend/agents/fraud_detection.py` for exactly how that escalation
+trigger is computed.
 
 ## Tech stack
 
@@ -144,8 +142,6 @@ frontend/
 dataset/           155 synthetic documents + 2 policy PDFs + ground-truth metadata.json (not in this repo — see "Get the dataset" below)
 transcripts/       real captured examples (see the docs index above)
 ```
-
-See `WALKTHROUGH.md` for what problem each individual file solves.
 
 ## Running it
 
@@ -257,10 +253,12 @@ repeatedly.
   `backend/evals/ground_truth.py`.
 - **WebSocket live status streaming** was not built — the assignment
   brief lists it as a bonus challenge, not a required component.
-- Three bugs found by the full eval run were investigated and closed out;
-  see `IMPLEMENTATION_CHALLENGES.md §7.4` for the complete, honest
-  writeup — one turned out to be dataset staleness (not a code defect at
-  all), the other two got real fixes with new tests.
+- Three bugs found by the full eval run were investigated and closed out:
+  one turned out to be dataset staleness (not a code defect at all — the
+  test fixtures' printed expiry dates predated the dataset's own
+  generation timestamp), the other two got real fixes with new tests
+  (see `backend/agents/vision_utils.py` and
+  `backend/agents/orchestrator.py`).
 
 ## License
 
