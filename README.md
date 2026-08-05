@@ -8,6 +8,8 @@ angles, and a deterministic decision rule turns their findings into
 APPROVE / REJECT / ESCALATE — with a human reviewer as the final word on
 anything ambiguous or high-stakes.
 
+**🎥 Demo video:** [watch on Loom](https://www.loom.com/share/09297ee7ec5445008692df49222be343)
+
 **Full documentation index:**
 
 | Doc | What it's for |
